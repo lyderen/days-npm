@@ -1,5 +1,4 @@
-const fs = require('fs');
-process.setting = JSON.parse(fs.readFileSync('.env.json','UTF-8'));
+
 const path = require('path');
 const express = require('express');
 const {mongoose} = require('./db/mongose');
@@ -17,6 +16,7 @@ const {authenticate} = require('./middleware/authenticate');
 const publicPath = path.join(__dirname, '..' , 'public');
 const port = process.env.PORT || 3000;
 
+process.settingKeys = require('../EnvaiermantVariable/setting');
 
 
 const app = express();
@@ -46,7 +46,7 @@ app.post(('/days/guest') ,(req,res) => {
 });
 
 
-app.get(process.setting.urlAdmin,(req,res) => {
+app.get(process.settingKeys.keys.urlAdmin,(req,res) => {
 
  DayGuest.find().then((docs) => {
   res.status(200).send(docs)
