@@ -1,0 +1,79 @@
+html {
+    font-size: 62.5%;
+}
+
+body{
+    font-family:  Helvetica, Arial, sans-serif;
+    font-size: $m-size;
+    direction: rtl;
+}
+
+button{
+    cursor: pointer;
+}
+
+button:disabled{
+    cursor: default;
+}
+.calander{
+    width: 90%;
+}
+td{
+    text-align: center;
+    background-color: #bbcedf;
+    font-size: large;
+    font-family: initial;
+}
+td:hover {
+ background-color: #71e166;
+}
+
+.rdo-btn{
+    margin-right: -7px;
+    margin-top: -5px;
+}
+.is-active{
+    font-weight: bold;
+}
+
+.control-month{
+    margin: 25px;
+}
+.button-next{
+    float: right;
+    margin-right: 11rem;
+}
+
+.button-previous{
+    float: left;
+    margin-left: 11rem;
+}
+
+.month-name{
+    font-weight: bold;
+}
+
+.selection{
+    width: 30%;
+}
+
+.btn-acording{
+    float: right;
+}
+
+.first-btn{
+    margin: 10px;
+}
+
+.second-btn{
+    margin: 10px;
+}
+.thered-btn{
+    margin: 10px;
+}
+
+.haflaga-area{
+    position: absolute;
+    margin-left: 25%;
+    margin-right: 10%;
+}
