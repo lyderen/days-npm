@@ -1,5 +1,5 @@
 const fs = require('fs');
-process.setting = JSON.parse(fs.readFileSync('.env.json','UTF-8'));
+process.setting = JSON.parse(fs.readFileSync('./EnvaiermantVariable/env.json','UTF-8'));
 const path = require('path');
 const express = require('express');
 const {mongoose} = require('./db/mongose');
@@ -11,7 +11,6 @@ const User = require ('./models/user.js');
 // 'AIzaSyARaSrrUoZcecS9MawCuXA3AEmxxiZELyU'
 const cors = require('cors');
 
-
 const {Todo} = require('./models/todo');
 const {authenticate} = require('./middleware/authenticate');
 
@@ -19,7 +18,7 @@ const publicPath = path.join(__dirname, '..' , 'public');
 const port = process.env.PORT || 3000;
 
 
-
+console.log(process.setting);
 const app = express();
 
 app.use(cors());
