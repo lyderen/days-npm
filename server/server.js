@@ -1,5 +1,5 @@
 const fs = require('fs');
-process.setting = JSON.parse(fs.readFileSync('./env.json','UTF-8'));
+process.setting = JSON.parse(fs.readFileSync('.env.json','UTF-8'));
 const path = require('path');
 const express = require('express');
 const {mongoose} = require('./db/mongose');
