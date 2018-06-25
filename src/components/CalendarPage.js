@@ -24,8 +24,8 @@ class CalendarPage extends React.Component{
            this.state={
             suspiciousDay: [],
                length: props.days.length,
-               citi: undefined,
-               dayTime: undefined,
+               citi: "",
+               dayTime: "",
                applay: false,
                startDay: false,
                endDay: false ,
@@ -36,18 +36,20 @@ class CalendarPage extends React.Component{
         //    this.boundActions = bindActionCreators(actions, dispatch);
        };  
        onCheckClik = (suspiciousDay) => {
-          this.props.dispatch(addDays(suspiciousDay.finalDay));
-          axios.post('/days/guest',{body:suspiciousDay.finalDay}).then((response) => {
-            console.log(response);
-        }).catch((e) => {
-            console.log(e);
-        });
-
-          this.setState(() => {
-            this.state.suspiciousDay.push(suspiciousDay);     
-          })
+           this.props.dispatch(addDays(suspiciousDay.finalDay));
+           axios.post('/days/guest',{body:suspiciousDay.finalDay}).then((response) => {
+               console.log(response);
+            }).catch((e) => {
+                console.log(e);
+            });
+            
+            this.setState(() => {
+                this.state.suspiciousDay.push(suspiciousDay);     
+            })
+            this.setState(() => ({citi:"",dayTime:"",startDayShow:"",endDayShow:""}));
        };
-       getCitiName = (citi) => {
+       getCitiName = (e) => {
+           const citi = e
            this.setState(() => ({ citi }))
        }
        haflagaArea = (applay) => {
@@ -66,19 +68,28 @@ class CalendarPage extends React.Component{
        getDayTime = (dayTime) => {
           this.setState(() => ({ dayTime }))
        }
+       clearHaflaga = (num) => {
+           this.setState(() => ({startDay:"",endDay: "",startDayShow:"",endDayShow:""}));
+                  if(num <2){
+                  this.clickChild(1);
+                }
+       }
      render(){
         return(
             <div>
-            <Citis callbBacktoSelectCiti={(citi) => this.getCitiName(citi)} />
-            <SuspiciousDayTime callBackToParent={(dayTime) => this.getDayTime(dayTime)} />
-            <AcordingTtoButtons callBackToParent={(applay) => this.haflagaArea(applay)} sendApply={this.state.applay} />
+            <Citis callbBacktoSelectCiti={(citi) => this.getCitiName(citi)} sendCiti={this.state.citi} />
+            <SuspiciousDayTime callBackToParent={(dayTime) => this.getDayTime(dayTime)} sendDayTime={this.state.dayTime} />
+            <AcordingTtoButtons callBackToParent={(applay) => this.haflagaArea(applay)} sendApply={this.state.applay} 
+            callBackToParentClearHaflaga={this.clearHaflaga}/>
             {this.state.applay && <HaflagaTime sendStartDay={this.state.startDayShow} sendEndDay={this.state.endDayShow} />}
             <ControlCalendar callBackToParent={(suspiciousDay) => this.onCheckClik(suspiciousDay)} 
             sendCiti={this.state.citi}
             sendApplay={this.state.applay}
             callToApplayDaysHaflaga={(day) => this.getDaysHaflaga(day)}
-            sendStartDay={this.startDay}
+            sendStartDay={this.startDay} sendEndDay={this.state.endDay}
             sendDayTime={this.state.dayTime}
+            callBackToParentClearHaflaga={this.clearHaflaga}
+            setClick={click => this.clickChild = click}
             />
             {this.state.suspiciousDay.length > 0 && <DaysResualt /> } 
          

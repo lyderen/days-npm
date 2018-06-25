@@ -17,7 +17,7 @@ const store = configureStore();
 
 
 // store.dispatch(setTextFilter('bill'));
- console.log('test');
+
 const state = store.getState();
   
 

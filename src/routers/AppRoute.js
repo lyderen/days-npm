@@ -10,7 +10,7 @@ import AccountPage from '../components/AccountPage';
 import  CalendarPage from '../components/CalendarPage';
   const AppRoute = () => (
   <BrowserRouter>
-    <div> 
+    <div className="container"> 
       <Header/>
        <Switch>
           <Route path='/' component={ExpenseDashBord} exact={true}/>

@@ -42,6 +42,7 @@ class AcordingTtoButtons extends React.Component{
         this.props.callBackToParent(true);
         else {
             this.props.callBackToParent(false);
+            this.props.callBackToParentClearHaflaga(1);
         }
     }
     render(){

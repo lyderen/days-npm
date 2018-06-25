@@ -66,7 +66,7 @@ function currentMonthDays () {
      // get all hebrew days at the current month
     export const days = currentMonthDays();
       var displayMonthToUi = days;
-      console.log(displayMonthToUi);
+     
 
       // geting all hebrew day of next month
      var clickToNextMonth = (month) =>  {

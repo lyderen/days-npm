@@ -12,10 +12,10 @@ class SuspiciousDayTime extends React.Component{
     render(){
         return (
             <div className='conteinor'>
-            <select className='form-control form-control-lg selection' onChange={this.handleSelect}>
-            <option placeholder='בחרי זמן עונה'></option>
-            <option>לילה</option>
-            <option>יום</option>
+            <select className='form-control form-control-lg selection' value={this.props.sendDayTime} onChange={this.handleSelect}>
+            <option value="none" >בחרי זמן ביום</option>
+            <option value="לילה">לילה</option>
+            <option value="יום">יום</option>
             </select>
             </div>
         )

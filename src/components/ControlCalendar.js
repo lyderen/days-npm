@@ -36,6 +36,9 @@ export default class ControlCalendar  extends React.Component{
         this.setState(() => ({firstEmptySquares:this.state.month[0].weekDay- 1,
                             lastEmptySquares:7 - this.state.month[this.state.month.length -1 ].weekDay}))
     }
+    componentDidMount() {
+        this.props.setClick(this.clearHaflagh);
+     }
    
     emptyFirstSquares = (days)=> {
         const daysSquares = days;
@@ -87,8 +90,8 @@ export default class ControlCalendar  extends React.Component{
      const URLsunShine = `https://safe-wave-98290.herokuapp.com/getingsunshinetimeaccordinglocation/${timeForLocatin}/${location.lat}/${location.lng}`;
           return new axios.get(URLsunShine)  
     }).then((response) => {   
-        const sliceRise = `${parseInt(response.data.sunriseStr.split(':')[0]) + timeOFSet / 60}:${response.data.sunriseStr.split(':')[1]}`;
-        const sliceSet = `${parseInt(response.data.sunsetstr.split(':')[0]) + timeOFSet / 60}:${response.data.sunsetstr.split(':')[1]}`;
+        let sliceRise = `${parseInt(response.data.sunriseStr.split(':')[0]) + timeOFSet / 60}:${response.data.sunriseStr.split(':')[1] < 10 ? response.data.sunriseStr.split(':')[1] = 0+response.data.sunriseStr.split(':')[1]:response.data.sunriseStr.split(':')[1] }`;
+        let sliceSet = `${parseInt(response.data.sunsetstr.split(':')[0]) + timeOFSet / 60}:${response.data.sunsetstr.split(':')[1]  < 10 ? response.data.sunsetstr.split(':')[1] = 0+response.data.sunsetstr.split(':')[1]:response.data.sunsetstr.split(':')[1]}`;
         const finalDay = {
             typeSuspc: typeSus,
             timeSuspc: timeSuspc,
@@ -153,32 +156,43 @@ export default class ControlCalendar  extends React.Component{
 caclulateHaflaga = () => {
 
     if(this.state.haflgaEnd){
-        const dayMillisecond =  24*60*60*1000;
-
-         const startHaflaga = this.state.haflgaStart.DAY.getTime();
-       //  const betweenStart = new Date(startHaflaga.getFullYear(),startHaflaga.getMonth(),startHaflaga.getDate()).getTime();
-
-         const endHaflaga = this.state.haflgaEnd.DAY.getTime();
-
-         let calculateDaysBetween = (endHaflaga - startHaflaga) + endHaflaga;
-
-         const nextHaflagaDay = new Date(calculateDaysBetween); 
-         const haflagaHebrewDay = hebrewDate(nextHaflagaDay.getFullYear(),nextHaflagaDay.getMonth() + 1,nextHaflagaDay.getDate());
-      
-         this.createObjectDaySuspicious('הפלגה',this.props.sendDayTime,nextHaflagaDay,haflagaHebrewDay);
-         console.log(calculateDaysBetween,nextHaflagaDay);
+        if(this.props.sendEndDay){
+            const dayMillisecond =  24*60*60*1000;
+            
+            const startHaflaga = this.state.haflgaStart.DAY.getTime();
+            //  const betweenStart = new Date(startHaflaga.getFullYear(),startHaflaga.getMonth(),startHaflaga.getDate()).getTime();
+            
+            const endHaflaga = this.state.haflgaEnd.DAY.getTime();
+            
+            let calculateDaysBetween = (endHaflaga - startHaflaga) + endHaflaga;
+            
+            const nextHaflagaDay = new Date(calculateDaysBetween); 
+            const haflagaHebrewDay = hebrewDate(nextHaflagaDay.getFullYear(),nextHaflagaDay.getMonth() + 1,nextHaflagaDay.getDate());
+            
+            this.createObjectDaySuspicious('הפלגה',this.props.sendDayTime,nextHaflagaDay,haflagaHebrewDay);
+            //         console.log(calculateDaysBetween,nextHaflagaDay);
+            this.clearHaflagh();
+        }
          
     }
+    
    
 }
-  
+  clearHaflagh = (num) => {
+       num += num;
+    this.setState(() => ({haflgaStart: "",haflgaEnd: ""}));
+    this.props.callBackToParentClearHaflaga(num);
+    
+  };
     render() {
         return (
             <div className='container'> 
-            {console.log(this.state.month)}
-            {console.log(this.state.SWD)}
+           
+            
              <h1 className='h1'>{this.state.month[0].month_name}</h1>
-             {this.props.sendApplay && <button className='btn btn-primary calc-haflaga' onClick={this.caclulateHaflaga} >חשב הפלגה</button>}
+
+             {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
+                 <button className='btn btn-primary calc-haflaga' onClick={this.clearHaflagh} >נקה</button></div>}
              <div className='control-month'>  
              <button className='btn btn-primary button-next' onClick={this.nextMonth} >Next</button>
              <button className='btn btn-primary button-previous' onClick={this.previousMonth} >Previos</button>  
