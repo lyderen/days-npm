@@ -34,28 +34,30 @@ class AcordingTtoButtons extends React.Component{
             this.state.chabadList = true;
          }else {
             this.state.chabadList = false;
+            this.haflagaShowArea();
          }
 
     };
     haflagaShowArea = () => {
-        if(this.props.sendApply === false)
+        if(this.props.sendApply === false && this.state.chabadList)
         this.props.callBackToParent(true);
-        else {
+        else if(this.props.sendApply  || this.state.chabadList) {
             this.props.callBackToParent(false);
             this.props.callBackToParentClearHaflaga(1);
         }
     }
     render(){
         return(
-            <div className='btn-acording'>
+        <div className="acording-to-btn">
+            <div className='btn-group btn-group-lg' role="group" >
             <div className='first-btn'>
-            <button type='button' className='btn btn-primary' onClick={this.ashkenaz} >אשכנז</button>
+            <button type='button' className='btn btn-secondary' onClick={this.ashkenaz} >אשכנז</button>
                {this.state.ashakenazList && <ul className='ashakenaz-list'>
                  <li><p>לא זמין כרגע</p></li> 
                </ul>}
             </div>
             <div className='second-btn'>
-            <button type='button' className='btn btn-primary' onClick={this.chabad} >חב"ד</button> 
+            <button type='button' className='btn btn-secondary' onClick={this.chabad} >חב"ד</button> 
                { this.state.chabadList &&<ul className='chabad-list'>
                     <li>עונת בינונית </li>
                     <li>עונת החודש</li>
@@ -63,12 +65,13 @@ class AcordingTtoButtons extends React.Component{
                 </ul>}
             </div>
             <div className='thered-btn'>
-            <button  type='button' className='btn btn-primary' onClick={this.sfard} >ספרד</button> 
+            <button  type='button' className='btn btn-secondary' onClick={this.sfard} >ספרד</button> 
                 {this.state.sfardList &&<ul className='sfard-list'>
                     <li><p>לא זמין כרגע</p></li> 
                 </ul>}
             </div>
             </div>
+           </div> 
         )
     }
 }

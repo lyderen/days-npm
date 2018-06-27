@@ -186,18 +186,15 @@ caclulateHaflaga = () => {
   };
     render() {
         return (
-            <div className='container'> 
-           
-            
-             <h1 className='h1'>{this.state.month[0].month_name}</h1>
-
-             {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
-                 <button className='btn btn-primary calc-haflaga' onClick={this.clearHaflagh} >נקה</button></div>}
-             <div className='control-month'>  
-             <button className='btn btn-primary button-next' onClick={this.nextMonth} >Next</button>
-             <button className='btn btn-primary button-previous' onClick={this.previousMonth} >Previos</button>  
-             </div>                
- <form>
+            <div className='container calendar-area'> 
+            {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga calc-haflaga-calcualet ' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
+            <button className='btn btn-primary calc-haflaga calc-haflaga-clear' onClick={this.clearHaflagh} >נקה בחירה</button></div>}
+            <p className='month-name'>{this.state.month[0].month_name}</p>
+ <form className="form-calendar">
+            <div className='control-month'>  
+            <button className=' btn btn-primary button-next' onClick={this.nextMonth} >Next</button>
+            <button className=' btn btn-primary button-previous' onClick={this.previousMonth} >Previos</button>  
+         </div>                
      <table className="table table-bordered calander">
          <thead>
                <tr>

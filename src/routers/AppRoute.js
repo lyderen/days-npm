@@ -13,7 +13,7 @@ import  CalendarPage from '../components/CalendarPage';
     <div className="container"> 
       <Header/>
        <Switch>
-          <Route path='/' component={ExpenseDashBord} exact={true}/>
+          <Route path='/' component={CalendarPage} exact={true}/>
           <Route path='/help' component={helpExpensePage} />
           <Route path='/account' component={AccountPage} />
           <Route path="/calendar" component={CalendarPage}/>
