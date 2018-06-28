@@ -190,11 +190,11 @@ caclulateHaflaga = () => {
             {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga calc-haflaga-calcualet ' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
             <button className='btn btn-primary calc-haflaga calc-haflaga-clear' onClick={this.clearHaflagh} >נקה בחירה</button></div>}
             <p className='month-name'>{this.state.month[0].month_name}</p>
- <form className="form-calendar">
             <div className='control-month'>  
             <button className=' btn btn-primary button-next' onClick={this.nextMonth} >Next</button>
             <button className=' btn btn-primary button-previous' onClick={this.previousMonth} >Previos</button>  
          </div>                
+ <form className="form-calendar">
      <table className="table table-bordered calander">
          <thead>
                <tr>

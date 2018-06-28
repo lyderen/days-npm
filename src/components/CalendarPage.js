@@ -76,7 +76,7 @@ class CalendarPage extends React.Component{
        }
      render(){
         return(
-            <div>
+            <div className="calendar-page">
             <Citis callbBacktoSelectCiti={(citi) => this.getCitiName(citi)} sendCiti={this.state.citi} />
             <SuspiciousDayTime callBackToParent={(dayTime) => this.getDayTime(dayTime)} sendDayTime={this.state.dayTime} />
             <AcordingTtoButtons callBackToParent={(applay) => this.haflagaArea(applay)} sendApply={this.state.applay} 
