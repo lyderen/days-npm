@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 const Day = mongoose.model('Day',{
+    sourceDate: {
+        type:String
+     },
     date:{
-        type: String,
+        type: Number,
         required: true
     },
     hebrewDate:{
-       type: String,
+        type:Object,
        require: true
     },
     completedAt: {
@@ -16,14 +19,17 @@ const Day = mongoose.model('Day',{
     typeSuspc:{
         type: String
     },
+    timeSuspc:{
+        type:String
+    },
     _creator:{
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    sunrise:{
+    sunRise:{
         type: String
     },
-    sunset:{
+    sunSet:{
         type: String
     },
     append: {
@@ -40,8 +46,11 @@ const Day = mongoose.model('Day',{
 
 
 const DayGuest = mongoose.model('DayGust',{
+    sourceDate: {
+       type:String
+    },
     date:{
-        type: String,
+        type: Number,
         required: true
     },
     hebrewDate:{
@@ -60,10 +69,10 @@ const DayGuest = mongoose.model('DayGust',{
     _creator:{
         type: String,
     },
-    sunrise:{
+    sunRise:{
         type: String
     },
-    sunset:{
+    sunSet:{
         type: String
     }
 

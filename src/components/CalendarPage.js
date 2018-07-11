@@ -8,7 +8,7 @@ import {days,callToNextmonthClick ,callToPreviousMonthClick} from '../calendar/h
 import ControlCalendar from './ControlCalendar.js';
 import DaysResualt from './DaysResualt'; 
 import  Citis from './Citis'; 
-import {addDays}  from '../actions/days.js';
+import {addDays,startAddDay}  from '../actions/days.js';
 import AcordingTtoButtons from './AcordingToButtons';
 import HaflagaTime from './HaflagaTime';
 import SuspiciousDayTime from './SuspiciousDayTime';
@@ -30,18 +30,19 @@ class CalendarPage extends React.Component{
                startDay: false,
                endDay: false ,
                startDayShow: '',
-               endDayShow: ''              
+               endDayShow: ''  
            };
         //    const { dispatch } = props;
         //    this.boundActions = bindActionCreators(actions, dispatch);
        };  
        onCheckClik = (suspiciousDay) => {
-           this.props.dispatch(addDays(suspiciousDay.finalDay));
-           axios.post('/days/guest',{body:suspiciousDay.finalDay}).then((response) => {
-               console.log(response);
-            }).catch((e) => {
-                console.log(e);
-            });
+           this.props.dispatch(startAddDay(suspiciousDay.finalDay));
+
+        //    axios.post('/days/guest',{body:suspiciousDay.finalDay}).then((response) => {
+        //        console.log(response);
+        //     }).catch((e) => {
+        //         console.log(e);
+        //     });
             
             this.setState(() => {
                 this.state.suspiciousDay.push(suspiciousDay);     
@@ -91,7 +92,7 @@ class CalendarPage extends React.Component{
             callBackToParentClearHaflaga={this.clearHaflaga}
             setClick={click => this.clickChild = click}
             />
-            {this.state.suspiciousDay.length > 0 && <DaysResualt /> } 
+            {this.props.days.length > 0 && <DaysResualt /> } 
          
             </div>
         )
@@ -100,7 +101,9 @@ class CalendarPage extends React.Component{
 
 const mapStateToProps = (state,props) => {
     return {
-        days   : state.days
+        days   : state.days,
+
+    
       }
 } 
 

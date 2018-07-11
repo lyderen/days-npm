@@ -3,6 +3,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
+process.settingKeys = require('../../EnvaiermantVariable/setting');
 
 
 // must to add a usER NAME to the user schema
@@ -23,6 +24,10 @@ var UserSchema = new mongoose.Schema({
       require: true,
       minlength: 6
     },
+    userName:{
+        type: String
+    
+    },
     tokens: [{
       access: {
         type: String,
@@ -41,21 +46,21 @@ var UserSchema = new mongoose.Schema({
           const user = this;
           const userObj = user.toObject();
 
-          return _.pick(userObj, ['email', '_id']);
+          return _.pick(userObj, ['email', '_id' , 'userName']);
       }
 
+      UserSchema.methods.generateAuthToken = function () {
+        const user = this;
+        const access = 'auth';
+        const token = jwt.sign({_id: user._id.toHexString(),access}, process.settingKeys.keys.tokenKey).toString();
+        user.tokens.push({access,token})
+        
+     
+        return user.save().then(() => {
+            return token;
+        });
+    }
 
-   UserSchema.methods.generateAuthToken = function () {
-       const user = this;
-       const access = 'auth';
-       const token = jwt.sign({_id: user._id.toHexString(),access},process.setting.tokenKey).toString();
-       user.tokens.push({access,token})
-       console.log('im inside');
-    
-       return user.save().then(() => {
-           return token;
-       });
-   }
 
 
     UserSchema.methods.removeToken = function(token) {
@@ -73,7 +78,7 @@ var UserSchema = new mongoose.Schema({
      let decoded;
 
      try{
-         decoded = jwt.verify(token,process.setting.tokenKey);
+         decoded = jwt.verify(token,process.settingKeys.keys.tokenKey);
      }catch (e) {
            return Promise.reject();
      }
@@ -122,6 +127,6 @@ var UserSchema = new mongoose.Schema({
           }
       });
 
-   var User = mongoose.model('User', UserSchema);
+   var User = mongoose.model('Users', UserSchema);
    
    module.exports = {User}

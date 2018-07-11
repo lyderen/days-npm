@@ -1,19 +1,6 @@
 import React from 'react' ;
 
 
-
-//  const Citis = (props) => (
-//     <div className='conteinor'>
-//     <select className='form-control form-control-lg selection' name={props.name} value={props.value} onChange={props.getCitiName}>
-//     <option>תל אביב</option>
-//     <option>חיפה</option>
-//     <option>ירושלים</option>
-//     <option>באר שבע</option>
-//     <option>אילת</option>
-//     </select>
-//     </div>
-// )
-
 class Citis extends React.Component{
    constructor(props){
        super(props);

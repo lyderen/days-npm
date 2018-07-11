@@ -21,6 +21,14 @@ export default (state = daysRedoucerDefaultState , action) => {
                return expense
            }
        });
+       case 'GET_DAYS':
+          return action.days;
+       case 'USER_LOG_IN':
+           const userName = action.userName;
+           return{
+               ...state,
+               userName
+           }
       default:
       return state;
   }

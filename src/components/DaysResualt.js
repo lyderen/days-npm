@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect } from 'react-redux';
+import selectDays from '../selectors/days';
 
 const DaysResualt =  (days) => (
     <div className='container'>
@@ -20,7 +21,7 @@ const DaysResualt =  (days) => (
                       return(  <tr key={i}>
                        <td>{day.typeSuspc}</td>
                        <td>{day.timeSuspc}</td>
-                       <td>{new Date(day.date).toLocaleDateString()}</td>
+                       <td>{new Date(parseInt(day.date)).toLocaleDateString()}</td>
                        <td>{day.hebrewDate.month_name} {day.hebrewDate.date}</td>
                        <td>{day.sunRise}</td>
                        <td>{day.sunSet}</td>
@@ -36,7 +37,7 @@ const DaysResualt =  (days) => (
 
 const mapStateToProps = (state,props) => {
     return {
-        days: state.days
+        days: selectDays(state.days, 'Date')
     }
 }
 

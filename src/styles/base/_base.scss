@@ -79,7 +79,7 @@ td:hover {
 
 .button-previous{
    float: left;
-    margin-left: -1px;
+    margin-left: -0.7%;
 }
 
 .month-name{
@@ -124,6 +124,14 @@ td:hover {
     margin: 0px 35% 0 40%;
 }
 
+.footer{
+    border-top: solid black 1px;
+}
+
+dt{
+    float: right;
+}
+
 
 
 
@@ -134,7 +142,7 @@ td:hover {
 
     .month-name{
         display: inline-block;
-        margin-right: 55%;
+        margin-right: 50%;
         margin-left: 40%;
     }
 

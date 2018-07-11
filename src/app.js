@@ -7,7 +7,7 @@ import AppRoute from './routers/AppRoute';
 import configureStore from './store/configureStore';
 import {addDays, removeDay, editday} from './actions/days';
 import {setTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate} from './actions/filters';
-import getVisibaleExpenses from './selectors/expenses';
+
 
 import 'normalize.css/normalize.css';
 import './styles/style.scss';

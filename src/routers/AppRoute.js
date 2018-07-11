@@ -4,21 +4,27 @@ import {BrowserRouter, Route, Switch, Link, NavLink} from 'react-router-dom';
 
 import ExpenseDashBord from '../components/ExpenseDashBord';
 import Header from '../components/header';
-import helpExpensePage from '../components/helpExpensePage';
+import Help from '../components/Help';
 import notFounfPage from '../components/notFounfPage'
-import AccountPage from '../components/AccountPage';
+
 import  CalendarPage from '../components/CalendarPage';
+import Footer from '../components/Footer';
+import About from '../components/About';
+import SignUP from '../components/SignUP';
+import SignIn from '../components/SignIn';
   const AppRoute = () => (
   <BrowserRouter>
     <div className="container"> 
       <Header/>
        <Switch>
           <Route path='/' component={CalendarPage} exact={true}/>
-          <Route path='/help' component={helpExpensePage} />
-          <Route path='/account' component={AccountPage} />
-          <Route path="/calendar" component={CalendarPage}/>
+          <Route path='/help' component={Help} />
+          <Route path='/about' component={About} />
+          <Route path="/signup" component={SignUP}/>
+          <Route path="/signin" component={SignIn}/>
           <Route component={notFounfPage} />
        </Switch>
+       <Footer />
     </div> 
   </BrowserRouter>
   );

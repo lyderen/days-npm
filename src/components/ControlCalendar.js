@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import axios from 'axios';
 
+
  import {days,callToNextmonthClick ,callToPreviousMonthClick} from '../calendar/hebrew-date';
  import TableDescription from '../calendar/tableDescription.js';
  import EmptyDescription from '../calendar/EmptyDescription.js';
@@ -25,7 +26,7 @@ export default class ControlCalendar  extends React.Component{
          simpleMonth:true,
          citi: this.props.sendCiti,
          haflgaStart: undefined,
-         haflgaEnd: undefined,
+         haflgaEnd: undefined
      };
     };
     componentWillMount(){
@@ -66,7 +67,7 @@ export default class ControlCalendar  extends React.Component{
             this.setState(() => ({firstEmptySquares:month[0].weekDay- 1,
                                   lastEmptySquares: 7 - month[month.length -1 ].weekDay}))
    }
- createObjectDaySuspicious = (typeSus,timeSuspc,targetDay,hebrew) =>{
+ createObjectDaySuspicious = (typeSus,timeSuspc,targetDay,hebrew,sourceDate) =>{
 
     const suspiciousDayDate = new Date(targetDay);
     hebrew.year = numberYearHebrew(hebrew.year);
@@ -93,6 +94,7 @@ export default class ControlCalendar  extends React.Component{
         let sliceRise = `${parseInt(response.data.sunriseStr.split(':')[0]) + timeOFSet / 60}:${response.data.sunriseStr.split(':')[1] < 10 ? response.data.sunriseStr.split(':')[1] = 0+response.data.sunriseStr.split(':')[1]:response.data.sunriseStr.split(':')[1] }`;
         let sliceSet = `${parseInt(response.data.sunsetstr.split(':')[0]) + timeOFSet / 60}:${response.data.sunsetstr.split(':')[1]  < 10 ? response.data.sunsetstr.split(':')[1] = 0+response.data.sunsetstr.split(':')[1]:response.data.sunsetstr.split(':')[1]}`;
         const finalDay = {
+            sourceDate: sourceDate,
             typeSuspc: typeSus,
             timeSuspc: timeSuspc,
             date:suspiciousDayDate.getTime(),
@@ -103,40 +105,41 @@ export default class ControlCalendar  extends React.Component{
         };
         
         this.props.callBackToParent({finalDay});
+        
        
     }).catch(console.error)     
  }
    pickDay = (e)=> {
        if(this.props.sendDayTime){
-
-       
-       if(e.target.textContent != " "){
-           const dayPick = parseInt(e.target.attributes.name.value);
+          if(e.target.textContent != " "){
            
-           const theDay = this.state.month[dayPick - 1].DAY;
-           
-           const day = theDay.getDate();
-           const month = theDay.getMonth();
-           const year = theDay.getFullYear();  
-           const getDay = new Date(year,month,day);
+                const dayPick = parseInt(e.target.attributes.name.value);
+                
+                const theDay = this.state.month[dayPick - 1].DAY;
+                
+                const day = theDay.getDate(),
+                      month = theDay.getMonth(),
+                      year = theDay.getFullYear(),  
+                      getDay = new Date(year,month,day),
+                      sourceDate = this.state.month[dayPick - 1];
+                console.log(sourceDate);
+          if(!this.props.sendApplay){
+             
+            // day of suspicious of benonint & hachoudesh
+            let targetDay = moment(getDay).add(29,'days');
 
-    if(!this.props.sendApplay){
-        
-       // day of suspicious of benonint & hachoudesh
-       let targetDay = moment(getDay).add(29,'days');
-
-        let hebrew = hebrewDate(targetDay._d.getFullYear(),targetDay._d.getMonth() + 1,targetDay._d.getDate());
-          
-        this.createObjectDaySuspicious('בינונית','יממה',targetDay,hebrew)
-        
-        if (dayPick === hebrew.date){
-            this.createObjectDaySuspicious('החודש',this.props.sendDayTime,targetDay,hebrew)
-           }else{
-               targetDay = moment(getDay).add(30,'days');
-               hebrew = hebrewDate(targetDay._d.getFullYear(),targetDay._d.getMonth() + 1,targetDay._d.getDate());
-                   if(dayPick === hebrew.date){
-                    this.createObjectDaySuspicious('החודש',this.props.sendDayTime,targetDay,hebrew)
-          }  
+             let hebrew = hebrewDate(targetDay._d.getFullYear(),targetDay._d.getMonth() + 1,targetDay._d.getDate());
+               
+             this.createObjectDaySuspicious('בינונית','יממה',targetDay,hebrew,sourceDate)
+             
+             if (dayPick === hebrew.date){
+                 this.createObjectDaySuspicious('החודש',this.props.sendDayTime,targetDay,hebrew,sourceDate)
+                }else{
+                    targetDay = moment(getDay).add(30,'days');
+                    hebrew = hebrewDate(targetDay._d.getFullYear(),targetDay._d.getMonth() + 1,targetDay._d.getDate());
+                        if(dayPick === hebrew.date){
+                         this.createObjectDaySuspicious('החודש',this.props.sendDayTime,targetDay,hebrew,sourceDate)
+               }  
         }
        } else {
            let haflgaDay = this.state.month[dayPick - 1];
@@ -187,6 +190,7 @@ caclulateHaflaga = () => {
     render() {
         return (
             <div className='container calendar-area'> 
+            {this.state.statusBar && <Line percent="10" strokeWidth="4" strokeColor="#D3D3D3" />}
             {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga calc-haflaga-calcualet ' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
             <button className='btn btn-primary calc-haflaga calc-haflaga-clear' onClick={this.clearHaflagh} >נקה בחירה</button></div>}
             <p className='month-name'>{this.state.month[0].month_name}</p>
