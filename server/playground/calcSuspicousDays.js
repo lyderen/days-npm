@@ -18,7 +18,7 @@ class calcSuspicousHachodesh {
     // the BIG if is chech if day of manth mauch && that suspicuos day is't append && time of in the day is mauch && that month ist consecutive
     calcByMontDay () {
         if(this.month.length >= 3 ){
-            let suspicusStrong = [{typeStrong:'samDayOfMonth'}];
+            let suspicusStrong = [];
             let monthNumber = this.month.map((i) => i.hebrewDate.month);
 
             for (let i = 0; i <= this.month.length - 1; i++ ){
@@ -28,7 +28,7 @@ class calcSuspicousHachodesh {
                      while(suspicusStrong.length){
                            suspicusStrong.pop();
                       }
-                 const firstime = this.month[i].hebrewDate.date;
+                 const firstime = this.month[i].hebrewDate.date; // move to next line inseide the if 
                      if(this.month[i].append == true){
                           suspicusStrong.push(this.month[i]);
 
@@ -44,6 +44,7 @@ class calcSuspicousHachodesh {
                        }
                      }
             } 
+            suspicusStrong.typeStrong = 'equalDayOfMonth';
             return suspicusStrong;
         }
     }
@@ -51,13 +52,13 @@ class calcSuspicousHachodesh {
     // check in the days suspicuss to know the days between one suspicuss to next time and chheck if the next 3 also have same days between &&
     // make as strongSuspicus return a array with new 3 suspicus for the next 3 times.!
     // the Big if check 1: that suspicus appeend - 2: time suspicus in day if ist much to first - 3: the days between suspicus  -> 
-    //  if ist mach the all way - 4: check if the  curent suspicus day if ist actuley ist the next time suspicus and if not the next next one
+    //  if ist mach the all way - 4: check if the  curent suspicus day if ist actuley ist the next time suspicus and if not 
    calcByDaysBetweenSuspicuss(){
        if(this.month.length >= 4){
-           let suspicusStrong = [{typeStrong:"DaysBetweenSuspicuss"}];
+           let suspicusStrong = [];
            let monthNumber = this.month.map((i) => i.hebrewDate.month);
 
-           for (let i = 0; i <= this.month.length -1; i ++){
+           for (let i = 0; i < this.month.length -1; i ++){
                  if (suspicusStrong.length === 4) {
                      break;
                  }
@@ -72,7 +73,7 @@ class calcSuspicousHachodesh {
 
                       for(let index = i + 2;index <= this.month.length -1; index ++){
                            if(this.month[index].append && this.month[index].timeSuspc == suspicusStrong[0].timeSuspc &&
-                            (parseInt(this.month[index].date  - suspicusStrong[index -1].date)) / dayMillisecond == daysBetween && 
+                            (parseInt(this.month[index].date  - suspicusStrong[suspicusStrong.length -1].date)) / dayMillisecond == daysBetween && 
                                monthNumber.indexOf(suspicusStrong[suspicusStrong.length -1].hebrewDate.month) + 1 == monthNumber.indexOf(this.month[index].hebrewDate.month)){
                                   suspicusStrong.push(this.month[index]);
                                   if(suspicusStrong.length == 4){
@@ -81,33 +82,104 @@ class calcSuspicousHachodesh {
                                } 
                        }     
                   }                
-       }
-       return suspicusStrong;
-   }
-}
+              }
+              suspicusStrong.typeStrong = 'DaysBetweenSuspicuss';
+                return suspicusStrong;
+           } 
+    }
   
-     calcByBetweenWeeks (){
+    // check in the days suspicuss in week day if ist 3 time same week day  &&
+    // make as strongSuspicus return a array with new 3 suspicus for the next 3 times.!
+    // the Big if check 1: that suspicus appeend - 2: time suspicus in day if ist much to first  -> 
+    //   3: check if the  curent suspicus day if ist actuley ist the next time suspicus and if not 
+     calcByWeekDaySuspicuss (){
+         if(this.month.length >= 4){
+             let suspicusStrong = [],
+             monthNumber = this.month.map((i) => i.hebrewDate.month);
+              for(let i = 0; i < this.month.length - 1; i++){ // make less the hieget iiteraiton not to be 2 from the lass 
+                   if (suspicusStrong.length === 4) {
+                       break;
+                   }
+                        while(suspicusStrong.length){
+                              suspicusStrong.pop();
+                         }
+                  if(this.month[i].append && this.month[i + 1].append){
+                       if(this.month[i].timeSuspc === this.month[i + 1].timeSuspc){
+                           if(new Date(this.month[i].date).getDay() == new Date(this.month[i + 1].date).getDay()){
+                                suspicusStrong.push(this.month[i],this.month[i + 1]);
+                                for(let index = i +2; index <= this.month.length - 1; index++){
+                                    if(this.month[index].append){
+                                        if(this.month[index].timeSuspc == suspicusStrong[0].timeSuspc){
+                                            if(new Date(this.month[index].date).getDay() == new Date(suspicusStrong[suspicusStrong.length -1].date).getDay()){
+                                               if(monthNumber.indexOf(suspicusStrong[suspicusStrong.length -1].hebrewDate.month) + 1 == monthNumber.indexOf(this.month[index].hebrewDate.month)){
+                                                suspicusStrong.push(this.month[index]);
+                                                if(suspicusStrong.length == 4){
+                                                    break;
+                                                }
+                                            }
+                                          }
+                                        }
+                                    }
+                                }
+                           }
+                       }
+                  }
+
+              }
+                  suspicusStrong.typeStrong = 'equalDayInWeekSuspicus';
+              return suspicusStrong;
+         }
          
      }
-    // calcByBetweenWeeks() {
-    //     if(this.month.length >= 3 ){
-    //         let suspicusStrong = [];
-    //         for (var i = 0; i <= this.month.length - 1; i++ ){
-    //              let firstimeWeek = moment(getMonthString(this.month[i].date)).week(),
-    //                    secondTimeWeek = moment(getMonthString(this.month[i + 1].date)).week();
-    //                    betweenWeek = secondTimeWeek - firstimeWeek;
-    //                  for(let index = 0; index <= this.month.length -1; index++){
-    //                      let firstDay =  moment(getMonthString(this.month[index].date)).week(),
-    //                          secondDay = moment(getMonthString(this.month[index +1].date)).week();
-    //                       if(secondDay - firstDay == betweenWeek){
-    //                            suspicusStrong.push(this.month[index]);
-    //                       } 
-    //                  }
-    //         } 
-    //         return suspicusStrong;
-    //     }
-    // }
-         
+     
+     calcByDaysFixedJumps(){
+         if(this.month.length >= 4){
+             let suspicusStrong = [],
+                 monthNumber = this.month.map((i) => i.hebrewDate.month),
+                 daysBetweenArray = [],
+                 isMach = false;
+
+                 for(let i = 0; i < this.month.length - 1; i++){
+                    if (suspicusStrong.length === 4 && isMach) {
+                        break;
+                    }
+                         while(suspicusStrong.length){
+                               suspicusStrong.pop();
+                          }
+                          daysBetweenArray.length = 0;
+                     if(this.month[i].append && this.month[i + 1].append){
+                         if(this.month[i].timeSuspc == this.month[i + 1].timeSuspc){
+                             let firstsDaysBetween = (this.month[i + 1].date - this.month[i].date) / dayMillisecond;
+                                 daysBetweenArray.push(parseInt(firstsDaysBetween));
+                               suspicusStrong.push(this.month[i], this.month[i + 1]);
+
+                                for(let index = i + 2; index < this.month.length -1; index++) {
+                                     if(this.month[index].append){
+                                         if(this.month[index].timeSuspc == suspicusStrong[0].timeSuspc){
+                                             if(monthNumber.indexOf(suspicusStrong[suspicusStrong.length -1].hebrewDate.month) + 1 == monthNumber.indexOf(this.month[index].hebrewDate.month)){
+                                                 daysBetweenArray.push(parseInt((this.month[index].date - suspicusStrong[suspicusStrong.length -1 ].date)/ dayMillisecond));
+                                                 suspicusStrong.push(this.month[index]);
+                                                 if(daysBetweenArray.length == 3){
+                                                     if(daysBetweenArray[1] - daysBetweenArray[0] == daysBetweenArray[2] - daysBetweenArray[1]){
+                                                         isMach = true;
+                                                         if(suspicusStrong.length == 4 ){
+                                                             break;
+                                                         }
+                                                     }else {
+                                                        break;
+                                                     }
+                                                 }
+                                             }
+                                         }
+                                     }   
+                                }
+                         }
+                     }
+                 }
+                 suspicusStrong.typeStrong = 'DaysFixedJumpsSuspicuss';
+                 return suspicusStrong;
+         }
+     }
 } 
 
 console.log(suorce.length)
@@ -120,6 +192,8 @@ console.log(suorce.length)
       
    console.log(hachudesh.calcByMontDay());
    console.log(hachudesh.calcByDaysBetweenSuspicuss())
+   console.log(hachudesh.calcByWeekDaySuspicuss())
+   console.log(hachudesh.calcByDaysFixedJumps())
 
 
 
