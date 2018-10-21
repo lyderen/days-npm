@@ -1,0 +1,287 @@
+$off-black: #20222b;
+$dark-blue: #333745;
+$blue: #3c4251;
+$light-blue: #464b5e;
+$off-white: #a5afd7;
+$purple: #8357c5;
+// Spacing
+$s-size: 1.2rem;
+$m-size: 1.6rem;
+$l-size: 3.2rem;
+$xl-size: 4.8rem;
+
+ html {  
+    font-size: 62.5%;
+ }
+body{
+    font-family:  Helvetica, Arial, sans-serif;
+    font-size: 1.2rem;
+    direction: rtl;
+}
+
+.mainConttainer{
+    width:100%
+}
+.header{
+    margin-top: 0.5%;
+    margin-bottom: 4%;
+    direction: ltr;
+}
+
+.account-btn{
+    float: none;
+    margin-top: 7px;
+}
+
+.userName{
+    margin-top: 10px;
+    color: brown;
+    float: right;
+    padding-left: 4%;
+    font-size: x-small;
+}
+
+.lastName{
+    border: none;
+    display: none;
+}
+
+.alertTime{
+    width: 100%;
+    text-align: right;
+    color: #23201a;
+    transition: 2s;
+}
+
+.calendar-page{
+    display: block;
+}
+button{
+    cursor: pointer;
+}
+
+button:disabled{
+    cursor: default;
+}
+
+.month-name{
+    text-align: -webkit-center;
+}
+.calander{
+    width: 90%;
+}
+td{
+    text-align: center;
+    background-color: #bbcedf;
+    font-size: large;
+    font-family: initial;
+}
+td:hover {
+ background-color: #71e166;
+}
+
+.rdo-btn{
+    margin-right: -7px;
+    margin-top: -5px;
+}
+.is-active{
+    font-weight: bold;
+}
+
+.form-calendar{
+    display: block;
+}
+
+.control-month{
+    width: 99%;
+    margin-right: 2px;
+}
+.control-haflaga-btn{
+    max-width: 100%;
+    display: block;
+    margin: 0 43% 0 40%;
+    flex-flow: column;
+}
+
+.calc-haflaga-calcualet {
+    margin-left: 3%;
+    margin-bottom: 3%;
+}
+.calendar-area{
+    margin-top: 8%;
+}
+.button-next{
+   float: right;
+    margin-right: -1px;
+    
+}
+
+.button-previous{
+   float: left;
+   margin-left: 9.3%;
+    margin-left: -0.7%;
+}
+
+.month-name{
+    font-weight: bold;
+}
+
+.selection{
+    width: 100%;
+}
+
+.btn-acording{
+    float: right;
+}
+
+.first-btn{
+    margin: 10px;
+}
+
+.second-btn{
+    margin: 10px;
+}
+.thered-btn{
+    margin: 10px;
+}
+
+.haflaga-area{
+    width: 100%;
+   float: right;
+   padding: 1px 39% 0 40%;
+   margin-top: 2%;
+}
+
+.haflaga-text-start{
+    display: block;
+}
+
+.loadMessage{
+    margin: 5px 40% 10px 40%;
+    color: rebeccapurple;
+}
+.haflaga-text-end{
+    display: block;
+    margin-top: 2%;
+}
+.acording-to-btn{
+    margin: 0px 35% 0 40%;
+}
+
+.footer{
+    border-top: solid black 1px;
+}
+
+.connect{
+    float: left;
+    margin-right: 6px;
+
+}
+
+.connect-area{
+    text-align: right;
+}
+
+.send-btn{
+  margin-bottom: 5px;
+}
+
+dt{
+    float: right;
+}
+
+.cunfiormBtn {
+    margin-top: 5px; }
+  
+  .loadMsg {
+    margin-top: 5px;
+    color: chartreuse; }
+
+ .hflagaClick{
+    width: 100%;
+    margin: 1% 0 3% 0;
+    }
+  
+  .lastTd {
+    border-color: white; }
+  
+//   body {
+//     font-family: Helvetica, Arial, sans-serif;
+//     direction: rtl; }
+  
+.admin-Header{
+text-align: center;
+color: cornflowerblue;
+}
+
+  .cunfiormBtn {
+    margin-top: 5px; }
+  
+  .loadMsg {
+    margin: 5px 40% 5px 40%;
+    color: rebeccapurple; }
+  
+  .lastTd {
+    border-color: white;
+    background-color: white;
+ }
+
+   .notesBtn{
+       width: 100%;
+       margin: 5% 0 3% 0 ;
+   } 
+
+   .searchAreaInputs{
+    padding: 2px 3% 1% 3%;
+    text-align: center;
+   }
+   
+   .kav{
+    text-align: center;
+    color: dimgrey;
+   }
+
+   .tdNote{ 
+       font-size: 1.5rem;
+       background-color: #aaa3e2;
+   }
+   @media only screen and (max-width: 460px) {
+    #app{
+        width:160%;
+    }
+}
+
+@media only screen and (max-width: 510px) {
+#app{
+    width:160%;
+}
+
+    .calendar-page{
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .month-name{
+        display: inline-block;
+        margin-right: 50%;
+        margin-left: 40%;
+    }
+tr , td {
+    font-size: 1.5rem;
+}
+    .acording-to-btn{
+           margin-left: 25%; 
+    margin-right: 25%;
+} 
+.selection{
+    width: 83%;
+    margin-left: 10px;
+}
+.button-previous{
+     margin-left: -0.7%;
+ }
+.calc-haflaga-calcualet{
+    margin-top: 5%;
+}
+    }
+  
