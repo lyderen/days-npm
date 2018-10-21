@@ -1,4 +1,4 @@
-import uuid from 'uuid'
+
 import axios from 'axios';
 
 // ADD_DAYS
@@ -8,7 +8,7 @@ export const addDays = (day) => ({
      day
     });
 
-    export const startAddDay = (dayData = {}) => {
+    export const startAddDay = (dayData = {},user) => {
        return (dispatch) => {
          const {
             sourceDate = '',
@@ -17,12 +17,18 @@ export const addDays = (day) => ({
              date = '',
              hebrewDate = '',
              createAt = 0,
-             city = '',
+             citi = '',
              sunRise = '',
-             sunSet = ''
+             sunSet = '',
+             haflagaAppend = false
          } = dayData;
-         const day = {sourceDate,typeSuspc, timeSuspc, date, hebrewDate, createAt, city, sunRise, sunSet}
-         axios.post('/days',{body:day}).then((response) => {
+         const day = {sourceDate,typeSuspc, timeSuspc, date, hebrewDate, createAt, citi, sunRise, sunSet, haflagaAppend}
+         let urlServer = '/days/guest'
+         console.log(day);
+         if(user){
+             urlServer = '/days';
+         }
+         axios.post(urlServer,{body:day}).then((response) => {
              dispatch(addDays({
                  ...response.data
              }));
@@ -40,16 +46,45 @@ export const addDays = (day) => ({
             id
     });
     
-   export const editDay = (id , updates) => ({
-       type: 'EDIT_DAY',
-       id,
-       updates
-    });
+
     
-export const getDays = (days) => ({
-   type:'GET_DAYS',
+    export const getDays = (days) => ({
+        type:'GET_DAYS',
    days
 });
+
+export const UpdateHaflaga = (id , updates) => ({
+    type: 'EDIT_HAFLAGA_DAY',
+    id,
+    updates
+ });
+// make a new store acording the ids that nedd to be change acording the user req
+export const startUpdateHaflaga = (idS) => {
+    return (dispatch) => {
+        return axios.post('/user/edithaflaga',{body: idS}).then((response) => {
+            const updates = response.data;
+            dispatch(UpdateHaflaga(idS,updates))
+        })
+    }
+    
+}
+
+
+    export const editDay = (id , updates) => ({
+        type: 'EDIT_DAY',
+        id,
+        updates
+     });
+
+export const startUpdateDay = (id,time) => {
+   return (dispatch) => {
+       return axios.post('/user/edit',{body: {id,time}}).then((response) => {
+           const updates = response.data;
+            dispatch(editDay(id,updates))
+       })
+   }
+
+}
 
 export  const startGetDays = () => {
     
@@ -64,4 +99,5 @@ export  const startGetDays = () => {
         });  
     };
 };
+    
     

@@ -9,8 +9,9 @@ import {addDays, removeDay, editday} from './actions/days';
 import {setTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate} from './actions/filters';
 
 
-import 'normalize.css/normalize.css';
+//import 'normalize.css/normalize.css';
 import './styles/style.scss';
+//import './styles/base/_base.scss';
 
 const store = configureStore();
 

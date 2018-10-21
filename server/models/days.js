@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Day = mongoose.model('Day',{
     sourceDate: {
-        type:String
+        type: Object
      },
     date:{
         type: Number,
@@ -39,15 +39,27 @@ const Day = mongoose.model('Day',{
     delete:{
        type: Boolean,
        default: false   
+    },
+    systemApplay: {
+        type: Boolean,
+        default: false
+    },    
+    haflagaAppend:{
+        type: Boolean,
+        default: false
+    },
+    citi:{
+        type:String,
+        default: 'ירושלים'
     }
-    
+
 });
 
 
 
 const DayGuest = mongoose.model('DayGust',{
     sourceDate: {
-       type:String
+       type: Object
     },
     date:{
         type: Number,
@@ -74,6 +86,10 @@ const DayGuest = mongoose.model('DayGust',{
     },
     sunSet:{
         type: String
+    },
+    citi:{
+        type:String,
+        default: 'ירושלים'
     }
 
 });

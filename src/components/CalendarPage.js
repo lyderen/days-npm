@@ -12,6 +12,7 @@ import {addDays,startAddDay}  from '../actions/days.js';
 import AcordingTtoButtons from './AcordingToButtons';
 import HaflagaTime from './HaflagaTime';
 import SuspiciousDayTime from './SuspiciousDayTime';
+import Alert from './Alert';
 
 
 
@@ -30,24 +31,24 @@ class CalendarPage extends React.Component{
                startDay: false,
                endDay: false ,
                startDayShow: '',
-               endDayShow: ''  
+               endDayShow: '',
+               load: false,
+               alertTime: false,
+               monthYear: {}
+               
            };
-        //    const { dispatch } = props;
-        //    this.boundActions = bindActionCreators(actions, dispatch);
        };  
        onCheckClik = (suspiciousDay) => {
-           this.props.dispatch(startAddDay(suspiciousDay.finalDay));
-
-        //    axios.post('/days/guest',{body:suspiciousDay.finalDay}).then((response) => {
-        //        console.log(response);
-        //     }).catch((e) => {
-        //         console.log(e);
-        //     });
+         
+               this.props.dispatch(startAddDay(suspiciousDay.finalDay,this.props.userName));
             
             this.setState(() => {
                 this.state.suspiciousDay.push(suspiciousDay);     
             })
             this.setState(() => ({citi:"",dayTime:"",startDayShow:"",endDayShow:""}));
+            if(this.state.suspiciousDay.length > 0){
+                this.setState(() => ({load: false}));
+            }
        };
        getCitiName = (e) => {
            const citi = e
@@ -67,7 +68,7 @@ class CalendarPage extends React.Component{
             }
        };
        getDayTime = (dayTime) => {
-          this.setState(() => ({ dayTime }))
+          this.setState(() => ({ dayTime , applayAlert: false}))
        }
        clearHaflaga = (num) => {
            this.setState(() => ({startDay:"",endDay: "",startDayShow:"",endDayShow:""}));
@@ -75,11 +76,22 @@ class CalendarPage extends React.Component{
                   this.clickChild(1);
                 }
        }
+       applayLoad = () => {
+            this.setState(() => ({ load: true})) 
+       }
+       applayAlert = () => {
+        this.setState(() => ({applayAlert: true}));
+       }
+       sendMonthYear = (month,year) => {
+         let monthYear = {month,year};
+       this.setState(() => ( {monthYear}));
+       }
      render(){
         return(
             <div className="calendar-page">
             <Citis callbBacktoSelectCiti={(citi) => this.getCitiName(citi)} sendCiti={this.state.citi} />
             <SuspiciousDayTime callBackToParent={(dayTime) => this.getDayTime(dayTime)} sendDayTime={this.state.dayTime} />
+            {this.state.applayAlert && <Alert msg={"את נדרשת לבחור יום או לילה של העונה."} cls={'alert-warning'}/>}
             <AcordingTtoButtons callBackToParent={(applay) => this.haflagaArea(applay)} sendApply={this.state.applay} 
             callBackToParentClearHaflaga={this.clearHaflaga}/>
             {this.state.applay && <HaflagaTime sendStartDay={this.state.startDayShow} sendEndDay={this.state.endDayShow} />}
@@ -91,10 +103,17 @@ class CalendarPage extends React.Component{
             sendDayTime={this.state.dayTime}
             callBackToParentClearHaflaga={this.clearHaflaga}
             setClick={click => this.clickChild = click}
+            callBackToApplyLoadEle={this.applayLoad}
+            callBackToApplyAlertTime={this.applayAlert}
+            callBackToSendMonthYear={(month,year) => this.sendMonthYear(month,year)}
             />
-            {this.props.days.length > 0 && <DaysResualt /> } 
-         
+            {this.state.load  && <h4 className='loadMessage'> loading....</h4>}
+            {this.props.days.length > 0 && <DaysResualt sendDayTime={this.state.dayTime} 
+             callBackToParent={(dayTime) => this.getDayTime(dayTime)} 
+             sendMonthYear={this.state.monthYear}
+             /> } 
             </div>
+            
         )
     }
 }
@@ -102,7 +121,7 @@ class CalendarPage extends React.Component{
 const mapStateToProps = (state,props) => {
     return {
         days   : state.days,
-
+        userName : state.UserName.userName
     
       }
 } 

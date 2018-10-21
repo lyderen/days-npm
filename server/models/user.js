@@ -28,6 +28,14 @@ var UserSchema = new mongoose.Schema({
         type: String
     
     },
+    suspicuosStrongDays:[{
+        daysBetween:{
+            type:Number
+        },
+        dateInMonth:{
+            type:Number
+        }
+    }],
     tokens: [{
       access: {
         type: String,

@@ -1,6 +1,7 @@
 @import './base/_setting.scss';
-@import './base/base';
-@import './components/account';
+@import './base/_base.scss';
+@import './components/_account.scss';
+
 
 
 $brand-color : green;

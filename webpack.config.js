@@ -6,10 +6,13 @@ module.exports = (env) => {
   const CSSExtract = new ExtractTextPlugin('styles.css');
 
   return {
-    entry: './src/app.js',
+    entry: {
+      index:'./src/app.js',
+      admin: './admin/adminApp.js'
+  },
     output: {
       path: path.join(__dirname, 'public'),
-      filename: 'bundle.js'
+      filename: "[name].bundle.js"
     },
     module: {
       rules: [{

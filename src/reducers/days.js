@@ -11,24 +11,31 @@ export default (state = daysRedoucerDefaultState , action) => {
       case 'REMOVE_DAY':
        return  state.filter(({id}) => id !== action.id);
        case 'EDIT_DAY':
-       return state.map((expense) => {
-           if(expense.id === action.id){
+       return state.map((day) => {
+           if(day._id === action.id){
                return {
-                   ...expense,
+                   ...day,
                    ...action.updates
                }
            }else{
-               return expense
+               return day
            }
        });
+       case 'EDIT_HAFLAGA_DAY':
+          return state.map((day,i) => {
+               if(day._id == action.id[0] ||day._id == action.id[1]){
+                    let index = action.id.indexOf(day._id);
+                   return {
+                       ...day,
+                       ...action.updates[index]
+                   }
+               } else {
+                   return day
+               }
+          })
+       // make as array that updat all much id to a new haflga append
        case 'GET_DAYS':
           return action.days;
-       case 'USER_LOG_IN':
-           const userName = action.userName;
-           return{
-               ...state,
-               userName
-           }
       default:
       return state;
   }

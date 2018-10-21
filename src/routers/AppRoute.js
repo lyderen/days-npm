@@ -12,9 +12,11 @@ import Footer from '../components/Footer';
 import About from '../components/About';
 import SignUP from '../components/SignUP';
 import SignIn from '../components/SignIn';
+import Connect from '../components/Connect';
+
   const AppRoute = () => (
   <BrowserRouter>
-    <div className="container"> 
+    <div className="container mainConttainer"> 
       <Header/>
        <Switch>
           <Route path='/' component={CalendarPage} exact={true}/>
@@ -22,6 +24,7 @@ import SignIn from '../components/SignIn';
           <Route path='/about' component={About} />
           <Route path="/signup" component={SignUP}/>
           <Route path="/signin" component={SignIn}/>
+          <Route path="/connect" component={Connect}/>
           <Route component={notFounfPage} />
        </Switch>
        <Footer />

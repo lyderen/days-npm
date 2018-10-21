@@ -1,8 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import {connect } from 'react-redux';
+
 import {startGetDays} from '../actions/days';
-import {userLogin} from '../actions/userName'
+import {startUserLogin,userLogin} from '../actions/userName';
+import LastName from '../components/LastName';
+
+const style = {
+    border: 'none',
+    display: 'none'
+}
 
 class SignIn extends React.Component{
     constructor(props){
@@ -10,6 +17,7 @@ class SignIn extends React.Component{
          this.state = {
             password: props.password ? props.password : '',
             email: props.email ? props.email : '',
+            LastName: '',
             erorr: undefined,
             erorrExsistEmail: undefined,
             counfrium: undefined,
@@ -40,39 +48,39 @@ class SignIn extends React.Component{
       const user = {
        password: this.state.password,
           email: this.state.email
-      }
+      };
       
-       axios.post('/user/login',{body:user}).then((response) => {
+          axios.post('/user/login',{body:user}).then((response) => {
            console.log(response);
            if(response.data === ""){
                this.setState(() => ({ erorrExsistEmail: 'כתובת מייל או ססימא שגוי נסה שנית'}));
            }else{
                this.setState(() => ({usernNameShow: response.data.userName}));
-               //this.props.dispatch(userLogin('Helo ' + this.state.usernNameShow));
-            //    this.props.dispatch({
-            //        type:'USER_LOG_IN',
-            //        userName: 'Helo ' + this.state.usernNameShow
-
-            //    });
-
+               this.props.dispatch(userLogin(this.state.usernNameShow));
+        
                this.props.dispatch(startGetDays());
                this.props.history.push('/');
            }
-          //this.setState(() => ({counfrium:response.data }))
        }).catch((e) => {
            console.log(e);
        })
     }
 };
+onLastNameCng = (e) => {
+ const lastName = e.target.value;
+ this.setState(() => ({lastName}))
+}
       render(){
           return(
    <div className='account-details'>
       {this.state.erorr && <p>{this.state.erorr}</p>} 
      <form onSubmit={this.heandleClick}>
           <div className="form-group">
+          <input type="text" className="form-control lastName" aria-label="Small"
+           aria-describedby="inputGroup-sizing-sm" value={this.state.LastName} onChange={this.onLastNameCng} style={style} />
               <label>Email address</label>
               <input type="email" className="form-control"  aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email}
-               onChange={this.onEamilChange}/>
+               onChange={this.onEamilChange} autoFocus/>
               <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
               {this.state.erorrExsistEmail && this.state.erorrExsistEmail}
           </div>
@@ -91,7 +99,7 @@ class SignIn extends React.Component{
 const mapStateToProps = (state,props) => {
     return {
         days: state.days,
-        userName: state.userName
+        userName: state.UserName
     }
 }
 

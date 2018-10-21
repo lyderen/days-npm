@@ -1,157 +1,199 @@
-html {
-    font-size: 62.5%;
-}
+// $off-black: #20222b;
+// $dark-blue: #333745;
+// $blue: #3c4251;
+// $light-blue: #464b5e;
+// $off-white: #a5afd7;
+// $purple: #8357c5;
+// // Spacing
+// $s-size: 1.2rem;
+// $m-size: 1.6rem;
+// $l-size: 3.2rem;
+// $xl-size: 4.8rem;
 
-body{
-    font-family:  Helvetica, Arial, sans-serif;
-    font-size: $m-size;
-    direction: rtl;
-}
+// html {
+//     font-size: 62.5%;
+// }
 
-.header{
-    margin-top: 0.5%;
-    margin-bottom: 4%;
-    direction: ltr;
-}
+// body{
+//     font-family:  Helvetica, Arial, sans-serif;
+//     font-size: $m-size;
+//     direction: rtl;
+// }
 
-.calendar-page{
-    display: block;
-}
-button{
-    cursor: pointer;
-}
+// .header{
+//     margin-top: 0.5%;
+//     margin-bottom: 4%;
+//     direction: ltr;
+// }
 
-button:disabled{
-    cursor: default;
-}
+// .userName{
+//     color: brown;
+// }
 
-.month-name{
-    text-align: -webkit-center;
-}
-.calander{
-    width: 90%;
-}
-td{
-    text-align: center;
-    background-color: #bbcedf;
-    font-size: large;
-    font-family: initial;
-}
-td:hover {
- background-color: #71e166;
-}
+// .calendar-page{
+//     display: block;
+// }
+// button{
+//     cursor: pointer;
+// }
 
-.rdo-btn{
-    margin-right: -7px;
-    margin-top: -5px;
-}
-.is-active{
-    font-weight: bold;
-}
+// button:disabled{
+//     cursor: default;
+// }
 
-.form-calendar{
-    display: block;
-}
+// .month-name{
+//     text-align: -webkit-center;
+// }
+// .calander{
+//     width: 90%;
+// }
+// td{
+//     text-align: center;
+//     background-color: #bbcedf;
+//     font-size: large;
+//     font-family: initial;
+// }
+// td:hover {
+//  background-color: #71e166;
+// }
 
-.control-month{
-    width: 99%;
-    margin-right: 2px;
-}
-.control-haflaga-btn{
-    max-width: 100%;
-    display: block;
-    margin: 0 43% 0 40%;
-    flex-flow: column;
-}
+// .rdo-btn{
+//     margin-right: -7px;
+//     margin-top: -5px;
+// }
+// .is-active{
+//     font-weight: bold;
+// }
 
-.calc-haflaga-calcualet {
-    margin-left: 3%;
-    margin-bottom: 3%;
-}
-.calendar-area{
-    margin-top: 8%;
-}
-.button-next{
-   float: right;
-    margin-right: -1px;
+// .form-calendar{
+//     display: block;
+// }
+
+// .control-month{
+//     width: 99%;
+//     margin-right: 2px;
+// }
+// .control-haflaga-btn{
+//     max-width: 100%;
+//     display: block;
+//     margin: 0 43% 0 40%;
+//     flex-flow: column;
+// }
+
+// .calc-haflaga-calcualet {
+//     margin-left: 3%;
+//     margin-bottom: 3%;
+// }
+// .calendar-area{
+//     margin-top: 8%;
+// }
+// .button-next{
+//    float: right;
+//     margin-right: -1px;
     
-}
+// }
 
-.button-previous{
-   float: left;
-    margin-left: -0.7%;
-}
+// .button-previous{
+//    float: left;
+//     margin-left: -0.7%;
+// }
 
-.month-name{
-    font-weight: bold;
-}
+// .month-name{
+//     font-weight: bold;
+// }
 
-.selection{
-    width: 30%;
-}
+// .selection{
+//     width: 30%;
+// }
 
-.btn-acording{
-    float: right;
-}
+// .btn-acording{
+//     float: right;
+// }
 
-.first-btn{
-    margin: 10px;
-}
+// .first-btn{
+//     margin: 10px;
+// }
 
-.second-btn{
-    margin: 10px;
-}
-.thered-btn{
-    margin: 10px;
-}
+// .second-btn{
+//     margin: 10px;
+// }
+// .thered-btn{
+//     margin: 10px;
+// }
 
-.haflaga-area{
-    width: 100%;
-   float: right;
-   padding: 1px 39% 0 40%;
-   margin-top: 2%;
-}
+// .haflaga-area{
+//     width: 100%;
+//    float: right;
+//    padding: 1px 39% 0 40%;
+//    margin-top: 2%;
+// }
 
-.haflaga-text-start{
-    display: block;
-}
+// .haflaga-text-start{
+//     display: block;
+// }
 
-.haflaga-text-end{
-    display: block;
-    margin-top: 2%;
-}
-.acording-to-btn{
-    margin: 0px 35% 0 40%;
-}
+// .loadMessage{
+//     margin: 5px 40% 10px 40%;
+//     color: rebeccapurple;
+// }
+// .haflaga-text-end{
+//     display: block;
+//     margin-top: 2%;
+// }
+// .acording-to-btn{
+//     margin: 0px 35% 0 40%;
+// }
 
-.footer{
-    border-top: solid black 1px;
-}
+// .footer{
+//     border-top: solid black 1px;
+// }
 
-dt{
-    float: right;
-}
+// dt{
+//     float: right;
+// }
+
+// .cunfiormBtn {
+//     margin-top: 5px; }
+  
+//   .loadMsg {
+//     margin-top: 5px;
+//     color: chartreuse; }
+  
+//   .lastTd {
+//     border-color: white; }
+  
+//   body {
+//     font-family: Helvetica, Arial, sans-serif;
+//     direction: rtl; }
+  
+//   .cunfiormBtn {
+//     margin-top: 5px; }
+  
+//   .loadMsg {
+//     margin: 5px 40% 5px 40%;
+//     color: rebeccapurple; }
+  
+//   .lastTd {
+//     border-color: white; }
 
 
+// @media screen and (max-width: 510px) {
+//     .calendar-page{
+//         display: inline-block;
+//     }
 
+//     .month-name{
+//         display: inline-block;
+//         margin-right: 50%;
+//         margin-left: 40%;
+//     }
 
-@media screen and (max-width: 510px) {
-    .calendar-page{
-        display: inline-block;
-    }
-
-    .month-name{
-        display: inline-block;
-        margin-right: 50%;
-        margin-left: 40%;
-    }
-
-    .acording-to-btn{
-           margin-left: 25%; 
-    margin-right: 25%;
-} 
-.calc-haflaga-calcualet{
-    margin-top: 5%;
-}
-    }
+//     .acording-to-btn{
+//            margin-left: 25%; 
+//     margin-right: 25%;
+// } 
+// .calc-haflaga-calcualet{
+//     margin-top: 5%;
+// }
+//     }
   

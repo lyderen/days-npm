@@ -11,6 +11,9 @@ import axios from 'axios';
  import convertNumMonthToName from '../javaScriptFiles/convertNumMonthToName.js';
  import convertNumberDateToABC from '../javaScriptFiles/convetNumberDateToABC.js';
  import Citis from './Citis.js';
+
+ const geocoder = new google.maps.Geocoder();
+
  
 export default class ControlCalendar  extends React.Component{
     constructor(props){
@@ -26,21 +29,34 @@ export default class ControlCalendar  extends React.Component{
          simpleMonth:true,
          citi: this.props.sendCiti,
          haflgaStart: undefined,
-         haflgaEnd: undefined
+         haflgaEnd: undefined,
+         currentMonth: null,
+         currentYear: null
      };
     };
     componentWillMount(){
         if(this.state.month[0].weekDay === 7 && this.state.month[this.month.length - 1].weekDay === 1 ){
-
-            this.setState(() => ({ rangeSliceLastDay: 29}));
+                   let currentMonth = this.state.month[0].month,
+                   currentYear = this.state.month[0].year;
+            this.setState(() => ({ rangeSliceLastDay: 29, currentMonth, currentYear}));
         }
         this.setState(() => ({firstEmptySquares:this.state.month[0].weekDay- 1,
                             lastEmptySquares:7 - this.state.month[this.state.month.length -1 ].weekDay}))
-    }
-    componentDidMount() {
-        this.props.setClick(this.clearHaflagh);
+
+         
+         
+        }
+        componentDidMount() {
+            this.props.setClick(this.clearHaflagh);
+
+            let currentMonth = this.state.month[0].month,
+                currentYear = this.state.month[0].year;
+            this.sendYearMonth(currentMonth, currentYear);
      }
-   
+
+   sendYearMonth = (month,year) => {
+       this.props.callBackToSendMonthYear(month, year);
+   }
     emptyFirstSquares = (days)=> {
         const daysSquares = days;
      const emptyDays = Array.from(Array(daysSquares));
@@ -49,11 +65,18 @@ export default class ControlCalendar  extends React.Component{
    nextMonth = () => {
      const month = callToNextmonthClick();
      this.monthWillChange(month);
+
+     let currentMonth = month[0].month,
+         currentYear = month[0].year;
+         this.sendYearMonth(currentMonth, currentYear);
    };
    previousMonth = () => {
     const month = callToPreviousMonthClick();
     this.monthWillChange(month);
-                        
+
+    let currentMonth = month[0].month,
+         currentYear = month[0].year; 
+         this.sendYearMonth(currentMonth, currentYear);                
    };
    monthWillChange = (month) => {
     this.setState(() => ({ month,SWD:month[0].weekDay - 1}));
@@ -69,11 +92,13 @@ export default class ControlCalendar  extends React.Component{
    }
  createObjectDaySuspicious = (typeSus,timeSuspc,targetDay,hebrew,sourceDate) =>{
 
+    // call parent to applay the loading.. element 
+    this.props.callBackToApplyLoadEle();
+
     const suspiciousDayDate = new Date(targetDay);
     hebrew.year = numberYearHebrew(hebrew.year);
-     let citi = this.props.snedCiti ? this.props.sendCiti : 'ירושלים';
-        const URLlocation =  `https://maps.googleapis.com/maps/api/geocode/json?address=${citi}`;
-                 
+     let citi = this.props.sendCiti ? this.props.sendCiti : 'ירושלים';
+                
        const yearA = suspiciousDayDate.getFullYear();
        const monthA = suspiciousDayDate.getMonth();
        const dayA = suspiciousDayDate.getDate();
@@ -83,36 +108,39 @@ export default class ControlCalendar  extends React.Component{
        if(timeOFSet < 0){
            timeOFSet = Math.abs(timeOFSet);
          }    
- axios.get(URLlocation).then((response) => {
-     if(response.data.status != 'OK'){
-        throw new Error('לא ניתן למצוא את הכתובת');
-      }
-     const location =  response.data.results[0].geometry.location;        
-     const URLsunShine = `https://safe-wave-98290.herokuapp.com/getingsunshinetimeaccordinglocation/${timeForLocatin}/${location.lat}/${location.lng}`;
-          return new axios.get(URLsunShine)  
-    }).then((response) => {   
-        let sliceRise = `${parseInt(response.data.sunriseStr.split(':')[0]) + timeOFSet / 60}:${response.data.sunriseStr.split(':')[1] < 10 ? response.data.sunriseStr.split(':')[1] = 0+response.data.sunriseStr.split(':')[1]:response.data.sunriseStr.split(':')[1] }`;
-        let sliceSet = `${parseInt(response.data.sunsetstr.split(':')[0]) + timeOFSet / 60}:${response.data.sunsetstr.split(':')[1]  < 10 ? response.data.sunsetstr.split(':')[1] = 0+response.data.sunsetstr.split(':')[1]:response.data.sunsetstr.split(':')[1]}`;
-        const finalDay = {
-            sourceDate: sourceDate,
-            typeSuspc: typeSus,
-            timeSuspc: timeSuspc,
-            date:suspiciousDayDate.getTime(),
-            hebrewDate: hebrew,
-            createAt: new Date().getTime(),
-            sunRise: sliceRise,
-            sunSet: sliceSet
-        };
-        
-        this.props.callBackToParent({finalDay});
-        
-       
-    }).catch(console.error)     
+                geocoder.geocode( { "address": citi }, (results, status) => {
+                    if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
+                        const location = results[0].geometry.location,
+                            lat      = location.lat(),
+                            lng      = location.lng();
+                    
+                    const URLsunShine = `https://safe-wave-98290.herokuapp.com/getingsunshinetimeaccordinglocation/${timeForLocatin}/${lat}/${lng}`;
+                        
+                    return new axios.get(URLsunShine)  
+                    .then((response) => {   
+                        let sliceRise = `${parseInt(response.data.sunriseStr.split(':')[0]) + timeOFSet / 60}:${response.data.sunriseStr.split(':')[1] < 10 ? response.data.sunriseStr.split(':')[1] = 0+response.data.sunriseStr.split(':')[1]:response.data.sunriseStr.split(':')[1] }`;
+                        let sliceSet = `${parseInt(response.data.sunsetstr.split(':')[0]) + timeOFSet / 60}:${response.data.sunsetstr.split(':')[1]  < 10 ? response.data.sunsetstr.split(':')[1] = 0+response.data.sunsetstr.split(':')[1]:response.data.sunsetstr.split(':')[1]}`;
+                        const finalDay = {
+                            sourceDate: sourceDate,
+                            typeSuspc: typeSus,
+                            timeSuspc: timeSuspc,
+                            date:suspiciousDayDate.getTime(),
+                            hebrewDate: hebrew,
+                            createAt: new Date().getTime(),
+                            sunRise: sliceRise,
+                            sunSet: sliceSet,
+                            citi: citi
+                        };  
+                        this.props.callBackToParent({finalDay}); 
+                    }).catch(console.error)  
+                }
+                });          
  }
    pickDay = (e)=> {
        if(this.props.sendDayTime){
           if(e.target.textContent != " "){
            
+            
                 const dayPick = parseInt(e.target.attributes.name.value);
                 
                 const theDay = this.state.month[dayPick - 1].DAY;
@@ -121,7 +149,10 @@ export default class ControlCalendar  extends React.Component{
                       month = theDay.getMonth(),
                       year = theDay.getFullYear(),  
                       getDay = new Date(year,month,day),
-                      sourceDate = this.state.month[dayPick - 1];
+                      sourceDate = {
+                          theDay: theDay.getTime(),
+                          hebrew: hebrewDate(theDay.getFullYear(),theDay.getMonth() + 1,theDay.getDate())
+                      };  // add hebrewDate ethier
                 console.log(sourceDate);
           if(!this.props.sendApplay){
              
@@ -137,7 +168,8 @@ export default class ControlCalendar  extends React.Component{
                 }else{
                     targetDay = moment(getDay).add(30,'days');
                     hebrew = hebrewDate(targetDay._d.getFullYear(),targetDay._d.getMonth() + 1,targetDay._d.getDate());
-                        if(dayPick === hebrew.date){
+                    
+                        if(parseInt((new Date(targetDay._d).getTime() - new Date(targetDay._i).getTime()) / (24*60*60*1000)) == 30){
                          this.createObjectDaySuspicious('החודש',this.props.sendDayTime,targetDay,hebrew,sourceDate)
                }  
         }
@@ -153,13 +185,15 @@ export default class ControlCalendar  extends React.Component{
        }
     } 
     }else {
-        alert('בחרי זמן עונה')
+       this.props.callBackToApplyAlertTime();
     }
 };
 caclulateHaflaga = () => {
 
     if(this.state.haflgaEnd){
         if(this.props.sendEndDay){
+            
+
             const dayMillisecond =  24*60*60*1000;
             
             const startHaflaga = this.state.haflgaStart.DAY.getTime();
