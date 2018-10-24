@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const _ = require('lodash');
 const {Day,DayGuest} = require('./models/days');
 const {User} = require ('./models/user.js');
-const {Note} = require('./models/note')
+const Note = require('./models/note')
 const session = require('express-session');
 const cors = require('cors');
 
@@ -42,6 +42,7 @@ app.post(('/days/guest') ,(req,res) => {
   });
 
   day.save().then((doc) => {
+    console.log(doc)
     res.send(doc);
   }).catch((e) => {
    res.status(200).send(e);
@@ -122,7 +123,7 @@ app.post(('/user/signup') , (req,res) => {
 
 app.post('/user/edithaflaga', authenticate, (req,res) => {
   const idS = req.body.body; 
-  console.log(idS);
+  
    let dysColect = [],
        days = [];
    dysColect =  idS.map(async (id) => {
@@ -147,7 +148,7 @@ app.post('/user/edithaflaga', authenticate, (req,res) => {
 app.post('/user/edit', authenticate, (req,res) => {
   const id = req.body.body.id,
         time = req.body.body.time;
-   console.log(req.body.body);
+   
      Day.findOneAndUpdate({_id: id}, {$set: { append: true, timeSuspc: time}},{returnOriginal: false,'new':true}).then((day) => {
       
         res.send(day)
@@ -165,19 +166,20 @@ app.post('/user/edit', authenticate, (req,res) => {
     })
 });
 
-app.post('/connect',(req, res) => {
+app.post('/sendnote',(req, res) => {
      const note = new Note({
       email: req.body.body.email,
       title: req.body.body.title,
       topic: req.body.body.topic,
-      creatAt: new Date().getTime,
+      creatAt: new Date().getTime(),
       lastName: req.body.body.lastName 
      });
 
   if(note.lastName){
     res.status(200).send('<h1> Maybe next time....</h1>');
-  } else {
-    note.save().then(() => {
+  } else  {
+    note.save().then((doc) => {
+      
       res.send('Thenks for your Note will handel shortly')
     }).catch((e) => {
 
@@ -197,7 +199,7 @@ app.get(process.settingKeys.keys.urlAdmin,(req,res) => {
 });
 
 app.get('/admindashbord',(req,res) => {
-  console.log(req.session);
+  
  if(req.session.name == process.settingKeys.keys.sessionName){
    res.sendFile(path.join(publicPath,'admin.html'));
  } else {
@@ -205,11 +207,10 @@ app.get('/admindashbord',(req,res) => {
  }
 });
 //,{typeSuspc: data.typeSuspc}, { date: { $gt: data.startDay, $lt: data.endDay }}
-app.post('/admindashbord/data/guest', (req,res) => {
+app.post('/admindashbord/data/guest', (req,res) => { 
   if(req.session.name == process.settingKeys.keys.sessionName){
-     
+
       return  queries(req.body.body)
-      
       .then((days) => {
         res.send({days})             
       }).catch((e) => {
@@ -224,6 +225,7 @@ app.get('/admindashbord/notes',(req,res) => {
   if(req.session.name == process.settingKeys.keys.sessionName){
     Note.find({read: false}).then((doc) => {
       const notes = doc;
+      
         res.send({notes});
     }).catch((e) => {
       res.status(200).send('cant recived data');
@@ -249,10 +251,12 @@ app.post('/admindashbord/notes/edit',(req,res) => {
 
 app.post('/admindashbord/data/delete',(req,res) => {
   if(req.session.name == process.settingKeys.keys.sessionName){
-       const id = req.body.body;
-       console.log(id);
-         // future add a funct that old all the files that will be removed irter on the id's array
-       DayGuest.remove({ _id: id}).then((response) => {
+       const id = req.body.body.id,
+            creator = req.body.body.creator,
+            collection = [ DayGuest, Day];
+
+         // future add a funct that old all the files that will be removed irter on the id's array removeMany..
+       collection[creator].remove({ _id: id}).then((response) => {
   console.log(response)
          res.status(200).send(response);
        })
@@ -270,9 +274,3 @@ app.get(('*'), (req,res) => {
 app.listen(port, () => {
     console.log(`Server is up ${port}`);
 });
-
-
-
-
-
-

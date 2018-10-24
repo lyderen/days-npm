@@ -17,7 +17,7 @@ export const startGetNote = (noteData = {}) => {
       } = noteData; 
       const note = {email, title, topic, lastName};
 
-       axios.post('/connect',{body:note}).then((respons) => {
+       axios.post('/sendnote',{body:note}).then((respons) => {
            const note = respons.data;
              dispatch(getNote(respons.data))
        }).catch((e) => {

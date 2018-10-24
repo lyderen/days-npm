@@ -28,7 +28,7 @@ class Header extends React.Component{
         return(
             <div className="header">
             <ul className="nav nav-tabs ">
-            <li className="nab-item"><NavLink to='/' className="nav-link" activeClassName='is-active' exact={true}>home</NavLink></li>   
+            <li className="nab-item"><NavLink to='/' className="nav-link" activeClassName='is-active' exact={true}>Home</NavLink></li>   
             <li className="nab-item"><NavLink to='/about' className="nav-link" activeClassName='is-active'>About</NavLink></li>
             <li className="nab-item"><NavLink to='/help' className="nav-link" activeClassName='is-active'>Help</NavLink></li>
             <div className="dropdown">

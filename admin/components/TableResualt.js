@@ -28,10 +28,13 @@ heandelHoverToolTip = (e) => {
   }
 }
   heandelDeleteIteam = (e) => {
-   const item = e.target.value;
+   let item = e.target.value,
+         creator = this.props.days.filter((day) => day._creator);
+            creator = creator.length > 0 ? 1 : 0;
+
           if(item) {
 
-            this.props.dispatch(startRemoveDay(item)).then(() => {
+            this.props.dispatch(startRemoveDay(item, creator)).then(() => {
               console.log('delete');
             })
           }

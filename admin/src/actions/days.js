@@ -41,11 +41,11 @@ export const addDays = (day) => ({
             id
     });
     
-    export const startRemoveDay = (id) => {
-        console.log(id);
+    export const startRemoveDay = (id, creator) => {
+        console.log(id,creator);
        return (dispatch) => {
            
-           return axios.post('/admindashbord/data/delete',{body: id}).then(() => {
+           return axios.post('/admindashbord/data/delete',{body: { id, creator }}).then(() => {
                 dispatch(removeDay(id));
            });
        }

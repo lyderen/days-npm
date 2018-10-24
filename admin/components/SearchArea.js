@@ -13,8 +13,13 @@ class SearchArea extends React.Component{
            startDayShoo: '',
            endDayShoo: '',
            startDay: undefined,
-           endDay: undefined
+           endDay: undefined,
+           email: ''
        }
+   }
+   onEamilChange = (e) => {
+    const email = e.target.value;
+     this.setState(() => ({ email }))
    }
    getTimeOfDay = (day) => {
        const orignalDay = day,
@@ -44,6 +49,7 @@ class SearchArea extends React.Component{
        if(this.state.typeSuspc) {
            this.props.callBackToApplyLoadEle();
            const search = {
+               email    : this.state.email,
               typeSuspc : this.state.typeSuspc,
               startDay  : this.state.startDay,
               endDay    : this.state.endDay
@@ -52,7 +58,7 @@ class SearchArea extends React.Component{
             this.props.dispatch(startGetDays(search)).then(() => {
                 this.props.callbBackToGetDays(this.props.days);
           })
-          this.setState(() => ({typeSuspc: '', startDayShoo: '', endDayShoo: '',})); 
+          this.setState(() => ({typeSuspc: '', startDayShoo: '', endDayShoo: '', email: ''})); 
        }
    }
    render() {
@@ -61,6 +67,9 @@ class SearchArea extends React.Component{
          <form onSubmit={this.heandelClick}>
          <div className="form-group selectTypeSuspicus">
          <label className='admin-Header' > חיפוש לפי סוגי חשש</label>
+              <input type="email" className="form-control emailInput" placeholder="Enter email" value={this.state.email}
+                      onChange={this.onEamilChange}
+                    />
          <select className="form-control" value={this.state.typeSuspc} onChange={this.selectType}> 
          <option value='none'>בחר סוג חשש</option>
            <option value="allSus">כל החששות</option>

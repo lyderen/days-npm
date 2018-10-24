@@ -203,10 +203,17 @@ caclulateHaflaga = () => {
             
             let calculateDaysBetween = (endHaflaga - startHaflaga) + endHaflaga;
             
+            // make as second time as surceDate for the haflaga
+            let theDay = new Date(endHaflaga),
+                sourceDate = {
+                theDay: endHaflaga,
+                hebrew: hebrewDate(theDay.getFullYear(),theDay.getMonth() + 1,theDay.getDate())
+            };
+
             const nextHaflagaDay = new Date(calculateDaysBetween); 
             const haflagaHebrewDay = hebrewDate(nextHaflagaDay.getFullYear(),nextHaflagaDay.getMonth() + 1,nextHaflagaDay.getDate());
             
-            this.createObjectDaySuspicious('הפלגה',this.props.sendDayTime,nextHaflagaDay,haflagaHebrewDay);
+            this.createObjectDaySuspicious('הפלגה',this.props.sendDayTime,nextHaflagaDay,haflagaHebrewDay, sourceDate);
             //         console.log(calculateDaysBetween,nextHaflagaDay);
             this.clearHaflagh();
         }
@@ -225,8 +232,8 @@ caclulateHaflaga = () => {
         return (
             <div className='container calendar-area'> 
             {this.state.statusBar && <Line percent="10" strokeWidth="4" strokeColor="#D3D3D3" />}
-            {this.props.sendApplay &&<div className="control-haflaga-btn"><button className='btn btn-primary calc-haflaga calc-haflaga-calcualet ' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
-            <button className='btn btn-primary calc-haflaga calc-haflaga-clear' onClick={this.clearHaflagh} >נקה בחירה</button></div>}
+            {this.props.sendApplay && <div className="control-haflaga-btn" ><button type="button" className="btn btn-primary btn-sm  calc-haflaga-calcualet" onClick={this.caclulateHaflaga}>חשב הפלגה</button>
+                             <button type="button" className="btn btn-secondary btn-sm" onClick={this.clearHaflagh} >נקה בחירה</button></div>}
             <p className='month-name'>{this.state.month[0].month_name}</p>
             <div className='control-month'>  
             <button className=' btn btn-primary button-next' onClick={this.nextMonth} >Next</button>
@@ -291,3 +298,7 @@ caclulateHaflaga = () => {
         )
     }
 }
+
+
+// <div className="btn-group control-haflaga-btn"><button className='btn btn-primary  btn-sm calc-haflaga calc-haflaga-calcualet ' onClick={this.caclulateHaflaga} >חשב הפלגה</button>
+//             <button className='btn btn-primary btn-secondary btn-sm calc-haflaga calc-haflaga-clear' onClick={this.clearHaflagh} >נקה בחירה</button></div>

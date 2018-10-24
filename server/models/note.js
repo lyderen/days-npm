@@ -22,4 +22,4 @@ const Note = mongoose.model('Notes',{
 
 });
 
-module.exports = {Note};
+module.exports = Note;
